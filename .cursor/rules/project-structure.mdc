@@ -1,0 +1,24 @@
+---
+alwaysApply: true
+---
+
+
+# Project Structure Guide
+
+- The main application code is in [src/app/](mdc:src/app/), organized by feature and layout.
+- Shared UI components are in [src/app/_components/](mdc:src/app/_components/), with further subfolders for specific component groups (e.g., header, shadcn).
+- Demo-related components and pages are in [src/app/demo/](mdc:src/app/demo/), including a local _components directory for demo-specific logic.
+- Styles are managed in [src/app/styles/](mdc:src/app/styles/), with Tailwind CSS partials in [src/app/styles/tailwind/](mdc:src/app/styles/tailwind/), and global variables in [src/app/styles/vars.css](mdc:src/app/styles/vars.css).
+- Public assets (SVGs, images) are in [public/](mdc:public/).
+- Utility functions are in [src/libs/utils.ts](mdc:src/libs/utils.ts).
+- The main configuration files (e.g., [package.json](mdc:package.json), [tsconfig.json](mdc:tsconfig.json), [tailwind.config.ts](mdc:tailwind.config.ts)) are at the project root.
+
+# Project Structure Guide
+
+- The main application code is in [src/app/](mdc:src/app/), organized by feature and layout.
+- Shared UI components are in [src/app/_components/](mdc:src/app/_components/), with further subfolders for specific component groups (e.g., header, shadcn).
+- Demo-related components and pages are in [src/app/demo/](mdc:src/app/demo/), including a local _components directory for demo-specific logic.
+- Styles are managed in [src/app/styles/](mdc:src/app/styles/), with Tailwind CSS partials in [src/app/styles/tailwind/](mdc:src/app/styles/tailwind/), and global variables in [src/app/styles/vars.css](mdc:src/app/styles/vars.css).
+- Public assets (SVGs, images) are in [public/](mdc:public/).
+- Utility functions are in [src/libs/utils.ts](mdc:src/libs/utils.ts).
+- The main configuration files (e.g., [package.json](mdc:package.json), [tsconfig.json](mdc:tsconfig.json), [tailwind.config.ts](mdc:tailwind.config.ts)) are at the project root.
