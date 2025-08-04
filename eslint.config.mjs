@@ -4,7 +4,7 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import perfectionist from 'eslint-plugin-perfectionist';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import tailwind from 'eslint-plugin-tailwindcss';
+// import tailwind from 'eslint-plugin-tailwindcss';
 import unusedImports from 'eslint-plugin-unused-imports';
 
 export default antfu(
@@ -55,7 +55,7 @@ export default antfu(
             'jsdoc/check-param-names': 'off',
         },
     },
-    ...tailwind.configs['flat/recommended'],
+    // ...tailwind.configs['flat/recommended'],
     jsxA11y.flatConfigs.recommended,
     {
         plugins: {
@@ -102,13 +102,13 @@ export default antfu(
             ],
         },
     },
-    {
-        name: 'tailwind',
-        rules: {
-            'tailwindcss/no-custom-classname': 'off',
-            'tailwindcss/enforces-shorthand': 'off',
-        },
-    },
+    // {
+    //     name: 'tailwind',
+    //     rules: {
+    //         'tailwindcss/no-custom-classname': 'off',
+    //         'tailwindcss/enforces-shorthand': 'off',
+    //     },
+    // },
     eslintConfigPrettier,
     eslintPluginPrettierRecommended,
 );
