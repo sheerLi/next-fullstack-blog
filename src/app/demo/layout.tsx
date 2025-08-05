@@ -3,14 +3,15 @@ import type { FC, PropsWithChildren } from 'react';
 
 import { px2remTransformer, StyleProvider } from '@ant-design/cssinjs';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
-import { App as AntdApp, ConfigProvider, theme } from 'antd';
+import { App as AntdApp, ConfigProvider } from 'antd';
 import '@ant-design/v5-patch-for-react-19';
 import { useMemo } from 'react';
 
+import Theme from '../_components/theme';
+import { useAntdAlgorithm } from '../_components/theme/hooks';
 import { Locale } from './_components/context';
 import { localeData } from './_components/context/constants';
-import { useLocale, useTheme } from './_components/hooks';
-import { Theme } from './_components/reducer';
+import { useLocale } from './_components/hooks';
 import { LayoutStore } from './_components/zustand';
 import $styles from './layout.module.css';
 
@@ -22,12 +23,7 @@ const DemoAntd: FC<PropsWithChildren> = ({ children }) => {
         }
         return localeData[locale.name];
     }, [locale.name]);
-    const themeState = useTheme();
-    const algorithm = useMemo(() => {
-        const result = [themeState.compact ? theme.compactAlgorithm : theme.defaultAlgorithm];
-        if (themeState.mode === 'dark') result.push(theme.darkAlgorithm);
-        return result;
-    }, [themeState]);
+    const algorithm = useAntdAlgorithm();
     return (
         <ConfigProvider
             locale={antdLocaleData}
