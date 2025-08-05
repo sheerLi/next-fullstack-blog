@@ -79,7 +79,7 @@ const Sider: FC = () => {
     return (
         <AntdSider style={{ background: layoutTheme.sidebar === 'dark' ? '' : colorBgContainer }}>
             {mode === 'side' && (
-                <div className="tw-mx-auto tw-my-7 tw-h-10 tw-w-3/4 tw-bg-slate-500" />
+                <div className="mx-auto my-7 h-10 w-3/4 bg-slate-500" />
             )}
             <Menu />
         </AntdSider>
@@ -95,9 +95,9 @@ const Header: FC = () => {
     return (
         <AntdHeader
             style={{ background: layoutTheme.header === 'dark' ? '' : colorBgContainer }}
-            className="tw-flex tw-items-center tw-px-0"
+            className="flex items-center px-0"
         >
-            {mode !== 'side' && <div className="tw-mx-3 tw-h-10 tw-w-44 tw-bg-slate-500" />}
+            {mode !== 'side' && <div className="mx-3 h-10 w-44 bg-slate-500" />}
             {mode === 'top' && <Menu />}
         </AntdHeader>
     );
@@ -111,7 +111,7 @@ const Content: FC = () => {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
     return (
-        <AntdLayout className="tw-p-6">
+        <AntdLayout className="p-6">
             <AntdContent
                 style={{
                     padding: 24,
@@ -199,12 +199,12 @@ export const ZustandDemo: FC = () => {
     const mode = useLayoutContext((state) => state.mode);
 
     return (
-        <div className="tw-flex tw-flex-auto tw-flex-col tw-items-center tw-justify-center">
-            <div className={clsx($styles.container, 'tw-flex tw-w-[100rem] tw-justify-between')}>
+        <div className="flex flex-auto flex-col items-center justify-center">
+            <div className={clsx($styles.container, 'flex w-[100rem] justify-between')}>
                 <ModeCtrol />
                 <ThemeCtrol />
             </div>
-            <div className={clsx($styles.container, 'tw-w-[100rem]')}>
+            <div className={clsx($styles.container, 'w-[100rem]')}>
                 <AntdLayout>
                     {mode !== 'side' && <Header />}
                     {mode === 'side' && <Sider />}
