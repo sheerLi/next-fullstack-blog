@@ -11,7 +11,6 @@ import type { ThemeAction } from './reducer/types';
 import { LocaleContext, locales } from './context/constants';
 import { defaultThemeConfig, ThemeContext } from './reducer/constants';
 
-// ...
 /**
  * 获取主题状态
  */

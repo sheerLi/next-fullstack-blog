@@ -1,12 +1,12 @@
 'use client';
+
 import type { FC, PropsWithChildren } from 'react';
 
 import { Pagination, Select } from 'antd';
-import { useCallback, useMemo, useState } from 'react';
+import { use, useCallback, useMemo, useState } from 'react';
 
 import type { LocaleState, LocaleType } from './types';
 
-import { useLocale, useLocaleAction } from '../hooks';
 import $styles from '../style.module.css';
 import { LocaleContext, localeData, locales } from './constants';
 
@@ -30,8 +30,7 @@ export const Locale: FC<PropsWithChildren> = ({ children }) => {
 };
 
 export const LocaleConfig: FC = () => {
-    const locale = useLocale();
-    const setLocale = useLocaleAction();
+    const { locale, setLocale } = use(LocaleContext);
     const changeLocale = (value: string) => {
         const current = locales.find((item) => item.name === value);
         current && setLocale(current);
@@ -48,7 +47,7 @@ export const LocaleConfig: FC = () => {
 };
 
 const ContextDemo: FC = () => {
-    const locale = useLocale();
+    const { locale } = use(LocaleContext);
     return (
         <div className={$styles.container}>
             <h2 className="text-center">useContext Demo</h2>
