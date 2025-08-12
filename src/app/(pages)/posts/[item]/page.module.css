@@ -1,0 +1,11 @@
+@reference "#tailwind.css";
+
+.item {
+    @apply bg-white/80 flex-auto w-full drop-shadow-lg rounded-md flex flex-col;
+}
+
+html[class='dark'] {
+    .item {
+        @apply !bg-zinc-800/50;
+    }
+}
