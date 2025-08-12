@@ -4,11 +4,14 @@ import { isNil } from 'lodash';
 import { Calendar } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 import { Tools } from '@/app/_components/home/tool';
 
 import type { IPaginateQueryProps } from '../_components/paginate/types';
 
+import { PostActions } from '../_components/post/list';
+import { PostListPaginate } from '../_components/post/paginate';
 import { cn } from '../_components/shadcn/utils';
 import { queryPostPaginate } from '../actions/post';
 import $styles from './page.module.css';
@@ -16,7 +19,12 @@ import $styles from './page.module.css';
 const HomePage: FC<{ searchParams: Promise<IPaginateQueryProps> }> = async ({ searchParams }) => {
     const { page: currentPage, limit = 8 } = await searchParams;
     const page = isNil(currentPage) || Number(currentPage) < 1 ? 1 : Number(currentPage);
-    const { items } = await queryPostPaginate({ page, limit });
+    const { items, meta } = await queryPostPaginate({ page, limit });
+
+    if (meta.totalPages && meta.totalPages > 0 && page > meta.totalPages) {
+        return redirect('/');
+    }
+
     return (
         <div className="page-item">
             <Tools className="page-container" />
@@ -57,11 +65,13 @@ const HomePage: FC<{ searchParams: Promise<IPaginateQueryProps> }> = async ({ se
                                     <time className="ellips">2024年8月10日</time>
                                 </div>
                                 {/* 文章操作按钮 */}
+                                <PostActions id={item.id} />
                             </div>
                         </div>
                     </div>
                 ))}
                 {/* 分页组件 */}
+                {meta.totalPages! > 1 && <PostListPaginate limit={8} page={page} />}
             </div>
         </div>
     );
