@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import Avatar from './avatar.svg';
+import Avatar from './avatar.jpg';
 import $styles from './logo.module.css';
 
 export const HeaderLogo = () => (

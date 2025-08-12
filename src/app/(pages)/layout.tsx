@@ -6,9 +6,9 @@ import Theme from '../_components/theme';
 import $styles from './layout.module.css';
 
 export const metadata: Metadata = {
-    title: 'pincman的博客',
+    title: 'sheerLi的博客',
     description:
-        'pincman的个人博客,提供一些ts、react、node.js、php、golang相关的技术文档以及分享一些生活琐事',
+        'sheerLi的个人博客,提供一些ts、react、vue、node.js相关的技术文档以及分享一些生活琐事',
 };
 
 const AppLayout: FC<PropsWithChildren<{ modal: ReactNode }>> = ({ children, modal }) => (
