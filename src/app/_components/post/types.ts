@@ -1,6 +1,5 @@
+import type { Post, Prisma } from '@prisma/client';
 import type { BaseSyntheticEvent } from 'react';
-
-import type { IPost } from '@/database/types';
 
 export interface PostCreateFormProps {
     type: 'create';
@@ -13,12 +12,12 @@ export interface PostCreateFormProps {
 
 export interface PostUpdateFormProps {
     type: 'update';
-    item: IPost;
+    item: Post;
 }
 
-export type PostCreateData = Omit<IPost, 'id'>;
+export type PostCreateData = Prisma.PostCreateInput;
 
-export type PostUpdateData = Partial<Omit<IPost, 'id'>> & { id: string };
+export type PostUpdateData = Partial<Omit<Post, 'id'>> & { id: string };
 
 export type PostActionFormProps = PostCreateFormProps | PostUpdateFormProps;
 

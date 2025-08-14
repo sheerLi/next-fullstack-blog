@@ -1,12 +1,13 @@
 'use server';
 
+import type { Post } from '@prisma/client';
+
 import { isNil } from 'lodash';
-import { v4 } from 'uuid';
 
-import type { IPost, PaginateOptions, PaginateReturn } from '@/database/types';
+import type { PaginateOptions, PaginateReturn } from '@/libs/db/types';
 
-import { readDbFile, resetDbFile } from '@/database/generator';
-import { paginate } from '@/database/utils';
+import db from '@/libs/db/client';
+import { paginateTransform } from '@/libs/db/utils';
 import { getRandomInt } from '@/libs/random';
 
 /**
@@ -15,10 +16,15 @@ import { getRandomInt } from '@/libs/random';
  */
 export const queryPostPaginate = async (
     options?: PaginateOptions,
-): Promise<PaginateReturn<IPost>> => {
+): Promise<PaginateReturn<Post>> => {
     // 此处使用倒序,以便新增的文章可以排在最前面
-    const posts = (await readDbFile()).reverse();
-    return paginate(posts, { page: 1, limit: 8, ...options });
+    const posts = await db.post.paginate({
+        orderBy: [{ updatedAt: 'desc' }, { createdAt: 'desc' }],
+        page: 1,
+        limit: 8,
+        ...options,
+    });
+    return paginateTransform(posts);
 };
 
 /**
@@ -31,13 +37,15 @@ export const queryPostTotalPages = async (limit = 8): Promise<number> => {
 };
 
 /**
- * 根据ID查询文章信息
- * @param id
+ * 根据id或slug查询文章信息
+ * @param arg
  */
-export const queryPostItem = async (id: string): Promise<IPost | null> => {
-    const posts = await readDbFile();
-    const item = posts.find((post) => post.id === id);
-    if (isNil(item)) throw new Error('post not exists!');
+export const queryPostItem = async (arg: string): Promise<Post | null> => {
+    const item = await db.post.findFirst({
+        where: {
+            id: arg,
+        },
+    });
     return item;
 };
 
@@ -45,10 +53,12 @@ export const queryPostItem = async (id: string): Promise<IPost | null> => {
  * 根据ID查询文章信息
  * @param id
  */
-export const queryPostItemById = async (id: string): Promise<IPost | null> => {
-    const posts = await readDbFile();
-    const item = posts.find((post) => post.id === id);
-    if (isNil(item)) throw new Error('post not exists!');
+export const queryPostItemById = async (id: string): Promise<Post | null> => {
+    const item = await db.post.findUnique({
+        where: {
+            id,
+        },
+    });
     return item;
 };
 
@@ -56,15 +66,10 @@ export const queryPostItemById = async (id: string): Promise<IPost | null> => {
  * 新增文章
  * @param data
  */
-export const createPostItem = async (data: Omit<IPost, 'id'>): Promise<IPost> => {
-    const posts = await readDbFile();
-    const item: IPost = {
-        ...data,
-        id: v4(),
-        thumb: `/uploads/thumb/post-${getRandomInt(1, 8)}.png`,
-    };
-    posts.push(item);
-    await resetDbFile(posts);
+export const createPostItem = async (data: Omit<Post, 'id'>): Promise<Post> => {
+    const item = await db.post.create({
+        data: { ...data, thumb: `/uploads/thumb/post-${getRandomInt(1, 8)}.png` },
+    });
     return item;
 };
 
@@ -75,29 +80,26 @@ export const createPostItem = async (data: Omit<IPost, 'id'>): Promise<IPost> =>
  */
 export const updatePostItem = async (
     id: string,
-    data: Partial<Omit<IPost, 'id'>>,
-): Promise<IPost | null> => {
-    let posts = await readDbFile();
-    const item = await queryPostItemById(id);
-    if (isNil(item)) return null;
-    const result = {
-        ...(await queryPostItemById(id)),
-        ...data,
-    } as IPost;
-    posts = posts.map((post) => (post.id === id ? result : post));
-    await resetDbFile(posts);
-    return result;
+    data: Partial<Omit<Post, 'id'>>,
+): Promise<Post | null> => {
+    const item = await db.post.update({
+        where: { id },
+        data,
+    });
+    return item;
 };
 
 /**
  * 删除文章
  * @param id
  */
-export const deletePostItem = async (id: string): Promise<IPost | null> => {
-    let posts = await readDbFile();
-    const item = await queryPostItemById(id);
-    if (isNil(item)) return null;
-    posts = posts.filter((post) => post.id !== id);
-    await resetDbFile(posts);
-    return item;
+export const deletePostItem = async (id: string): Promise<Post | null> => {
+    const item = await db.post.findUnique({
+        where: { id },
+    });
+    if (!isNil(item)) {
+        await db.post.delete({ where: { id } });
+        return item;
+    }
+    return null;
 };
