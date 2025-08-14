@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
-import { Tools } from '@/app/_components/home/tool';
 import { formatChineseTime } from '@/libs/time';
 
 import type { IPaginateQueryProps } from '../_components/paginate/types';
@@ -28,7 +27,6 @@ const HomePage: FC<{ searchParams: Promise<IPaginateQueryProps> }> = async ({ se
 
     return (
         <div className="page-item">
-            <Tools className="page-container" />
             <div className={cn('page-container', $styles.list)}>
                 {items.map((item) => (
                     <div

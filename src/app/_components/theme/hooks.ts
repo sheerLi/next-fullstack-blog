@@ -75,6 +75,15 @@ export function useSystemTheme() {
 }
 
 /**
+ * 获取主题最终颜色
+ */
+export const useThemeColor = () => {
+    const { mode } = useTheme();
+    const systemTheme = useSystemTheme();
+    return mode === 'system' ? systemTheme : mode;
+};
+
+/**
  * 获取 Antd 主题配置算法
  */
 export const useAntdAlgorithm = () => {
