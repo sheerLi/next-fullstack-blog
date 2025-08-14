@@ -3,11 +3,6 @@ import type { BaseSyntheticEvent } from 'react';
 
 export interface PostCreateFormProps {
     type: 'create';
-    /**
-     * 在文章正在创建时执行一些动画
-     * @param value
-     */
-    setPedding: (value: boolean) => void;
 }
 
 export interface PostUpdateFormProps {
@@ -19,10 +14,16 @@ export type PostCreateData = Prisma.PostCreateInput;
 
 export type PostUpdateData = Partial<Omit<Post, 'id'>> & { id: string };
 
-export type PostActionFormProps = PostCreateFormProps | PostUpdateFormProps;
+export type PostActionFormProps = (PostCreateFormProps | PostUpdateFormProps) & {
+    /**
+     * 在文章正在创建时执行一些动画
+     * @param value
+     */
+    setPedding: (value: boolean) => void;
+};
 
 export type PostFormData = PostCreateData | PostUpdateData;
 
-export interface PostCreateFormRef {
-    create?: (e: BaseSyntheticEvent) => Promise<void>;
+export interface PostActionFormRef {
+    save?: (e: BaseSyntheticEvent) => Promise<void>;
 }
