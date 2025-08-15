@@ -5,6 +5,7 @@ import { Calendar } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
+import { MdxRender } from '@/app/_components/mdx/render';
 import { cn } from '@/app/_components/shadcn/utils';
 import { queryPostItem } from '@/app/actions/post';
 import { formatChineseTime } from '@/libs/time';
@@ -45,7 +46,9 @@ const PostItemPage: FC<{ params: Promise<{ item: string }> }> = async ({ params 
                             </time>
                         </div>
                     </div>
-                    <div className={$styles.body}>{post.body}</div>
+                    <div className={$styles.body}>
+                        <MdxRender source={post.body} />
+                    </div>
                 </div>
             </div>
         </div>
