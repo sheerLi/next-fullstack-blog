@@ -1,11 +1,12 @@
 'use client';
 
 import { isNil } from 'lodash';
-import { forwardRef, useEffect, useImperativeHandle } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 
 import type { PostActionFormProps, PostActionFormRef } from './types';
 
 import { Details } from '../collapsible/details';
+import { MdxEditor } from '../mdx/editor';
 import { Button } from '../shadcn/ui/button';
 import {
     Form,
@@ -41,9 +42,20 @@ export const PostActionForm = forwardRef<PostActionFormRef, PostActionFormProps>
         [props.type],
     );
 
+    const [body, setBody] = useState<string | undefined>(
+        props.type === 'create' ? '文章内容' : props.item.body,
+    );
+
+    useEffect(() => {
+        if (!isNil(body)) form.setValue('body', body);
+    }, [body]);
+
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8">
+            <form
+                onSubmit={form.handleSubmit(submitHandler)}
+                className="flex flex-auto flex-col space-y-8"
+            >
                 <FormField
                     control={form.control}
                     name="title"
@@ -61,7 +73,7 @@ export const PostActionForm = forwardRef<PostActionFormRef, PostActionFormProps>
                         </FormItem>
                     )}
                 />
-                <Details summary="可选字段" defaultOpen>
+                <Details summary="可选字段">
                     <FormField
                         control={form.control}
                         name="summary"
@@ -84,14 +96,14 @@ export const PostActionForm = forwardRef<PostActionFormRef, PostActionFormProps>
                 <FormField
                     control={form.control}
                     name="body"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>文章内容</FormLabel>
+                    render={({ field: _ }) => (
+                        <FormItem className="flex flex-auto flex-col">
+                            <FormLabel className="mb-3">文章内容</FormLabel>
                             <FormControl>
-                                <Textarea
-                                    placeholder="请输入内容"
-                                    {...field}
-                                    className="min-h-80"
+                                <MdxEditor
+                                    content={body}
+                                    setContent={setBody}
+                                    disabled={form.formState.isSubmitting}
                                 />
                             </FormControl>
                             <FormMessage />

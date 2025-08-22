@@ -4,6 +4,15 @@ import type { TocItem } from 'remark-flexible-toc';
 import type { Compatible } from 'vfile';
 
 /**
+ * mdx编辑器组件props
+ */
+export interface MdxEditorProps {
+    content?: string;
+    setContent: (value?: string) => void;
+    disabled?: boolean;
+}
+
+/**
  * mdx作用域
  */
 interface Scope {
