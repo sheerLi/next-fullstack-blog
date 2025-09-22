@@ -1,34 +1,32 @@
-import type { DeepNonNullable } from 'utility-types';
+import type { Post } from '@prisma/client';
 
 import { isNil, trim } from 'lodash';
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
-import type { IPost } from '@/database/types';
-
 import { createPostItem, updatePostItem } from '@/app/actions/post';
 
 import type { PostCreateData, PostFormData, PostUpdateData } from './types';
 
-export const usePostActionForm = (params: { type: 'create' } | { type: 'update'; item: IPost }) => {
+export const usePostActionForm = (params: { type: 'create' } | { type: 'update'; item: Post }) => {
     const defaultValues = useMemo(() => {
         if (params.type === 'create') {
             return {
                 title: '文章标题',
                 body: '文章内容',
                 summary: '',
-            } as DeepNonNullable<PostCreateData>;
+            } as PostCreateData;
         }
 
         return {
             title: params.item.title,
             body: params.item.body,
             summary: isNil(params.item.summary) ? '' : params.item.summary,
-        } as DeepNonNullable<PostUpdateData>;
+        } as PostUpdateData;
     }, [params.type]);
 
-    return useForm<DeepNonNullable<PostFormData>>({ defaultValues });
+    return useForm<PostFormData>({ defaultValues });
 };
 
 /**

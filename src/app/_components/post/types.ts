@@ -1,6 +1,8 @@
 import type { Post, Prisma } from '@prisma/client';
 import type { BaseSyntheticEvent } from 'react';
 
+import type { DBFormData } from '@/database/types';
+
 export interface PostCreateFormProps {
     type: 'create';
 }
@@ -22,7 +24,7 @@ export type PostActionFormProps = (PostCreateFormProps | PostUpdateFormProps) & 
     setPedding: (value: boolean) => void;
 };
 
-export type PostFormData = PostCreateData | PostUpdateData;
+export type PostFormData = DBFormData<PostCreateData | PostUpdateData>;
 
 export interface PostActionFormRef {
     save?: (e: BaseSyntheticEvent) => Promise<void>;
