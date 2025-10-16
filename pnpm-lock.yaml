@@ -47,6 +47,9 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.2.3
         version: 1.2.3(@types/react@19.1.6)(react@19.1.0)
+      '@ricons/fluent':
+        specifier: ^0.13.0
+        version: 0.13.0
       '@uiw/react-md-editor':
         specifier: ^4.0.8
         version: 4.0.8(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -1321,6 +1324,9 @@ packages:
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
+
+  '@ricons/fluent@0.13.0':
+    resolution: {integrity: sha512-x+kcp2zFLBAuRK2Ry9GH78cuQNpMa5XXAn4rMdi4eF2eMO56xJMgRiqfE/L3p8EZpRuFN2+fJMrQtwLvmPlxGw==}
 
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
@@ -6153,6 +6159,8 @@ snapshots:
       rc-util: 5.44.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
+
+  '@ricons/fluent@0.13.0': {}
 
   '@rtsao/scc@1.1.0': {}
 

@@ -1,7 +1,7 @@
 @reference "#tailwind.css";
 
 .item {
-    @apply bg-white/80 flex-auto w-full drop-shadow-lg rounded-md flex flex-col;
+    @apply bg-white/80 flex-auto w-full rounded-md flex flex-col;
 
     & > .thumb {
         @apply relative w-full h-36 md:h-48 lg:h-64 block;
