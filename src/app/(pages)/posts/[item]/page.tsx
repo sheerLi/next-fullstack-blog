@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import { MdxRender } from '@/app/_components/mdx/render';
+import { PostEditButton } from '@/app/_components/post/edit-button';
 import { cn } from '@/app/_components/shadcn/utils';
 import { queryPostItem } from '@/app/actions/post';
 import { formatChineseTime } from '@/libs/time';
@@ -31,23 +32,32 @@ const PostItemPage: FC<{ params: Promise<{ item: string }> }> = async ({ params 
                 </div>
 
                 <div className={$styles.content}>
-                    <header className={$styles.title}>
-                        <h1>{post.title}</h1>
-                    </header>
-                    <div className={$styles.meta}>
-                        <div>
-                            <span>
-                                <Calendar />
-                            </span>
-                            <time className="ellips">
-                                {!isNil(post.updatedAt)
-                                    ? formatChineseTime(post.updatedAt)
-                                    : formatChineseTime(post.createdAt)}
-                            </time>
-                        </div>
-                    </div>
-                    <div className={$styles.body}>
-                        <MdxRender source={post.body} />
+                    <div className={$styles.content}>
+                        <MdxRender
+                            source={post.body}
+                            header={
+                                <>
+                                    <header className={$styles.title}>
+                                        <h1 className="text-lg lg:text-3xl">{post.title}</h1>
+                                        <div className="ml-2">
+                                            <PostEditButton id={post.id} iconBtn />
+                                        </div>
+                                    </header>
+                                    <div className={$styles.meta}>
+                                        <div>
+                                            <span>
+                                                <Calendar />
+                                            </span>
+                                            <time className="ellips">
+                                                {!isNil(post.updatedAt)
+                                                    ? formatChineseTime(new Date(post.updatedAt))
+                                                    : formatChineseTime(new Date(post.createdAt))}
+                                            </time>
+                                        </div>
+                                    </div>
+                                </>
+                            }
+                        />
                     </div>
                 </div>
             </div>

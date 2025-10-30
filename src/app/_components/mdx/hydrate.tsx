@@ -20,7 +20,7 @@ import $styles from './hydrate.module.css';
 import { defaultMdxHydrateOptions } from './options/hydrate';
 
 export const MdxHydrate: FC<MdxHydrateProps> = (props) => {
-    const { serialized, toc = true, ...rest } = props;
+    const { serialized, header, toc = true, ...rest } = props;
     const contentRef = useRef<HTMLDivElement>(null);
     const [content, setContent] = useState<JSX.Element | null>(null);
     const mobile = useIsMobile();
@@ -53,6 +53,7 @@ export const MdxHydrate: FC<MdxHydrateProps> = (props) => {
         !isNil(content) && (
             <div className={$styles.container}>
                 <div className={$styles.article} ref={contentRef}>
+                    {header}
                     {content}
                 </div>
                 {toc && <Toc serialized={serialized} isMobile={isMobile} />}

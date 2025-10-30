@@ -41,6 +41,7 @@ export type MdxHydrateOptions = Omit<HydrateProps, 'compiledSource'> & {
  * mdx水合组件props
  */
 export interface MdxHydrateProps extends MdxHydrateOptions {
+    header?: React.ReactNode;
     serialized: SerializeResult<Record<string, unknown>, Scope>;
 }
 
@@ -49,6 +50,7 @@ export interface MdxHydrateProps extends MdxHydrateOptions {
  */
 export interface MdxRenderProps {
     source: Compatible;
+    header?: React.ReactNode;
     options?: MdxSerializeOptions;
     hydrate?: MdxHydrateOptions;
 }
