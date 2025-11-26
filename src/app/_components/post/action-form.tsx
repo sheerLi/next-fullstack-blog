@@ -7,7 +7,6 @@ import type { PostActionFormProps, PostActionFormRef } from './types';
 
 import { Details } from '../collapsible/details';
 import { MdxEditor } from '../mdx/editor';
-import { Button } from '../shadcn/ui/button';
 import {
     Form,
     FormControl,
@@ -110,11 +109,6 @@ export const PostActionForm = forwardRef<PostActionFormRef, PostActionFormProps>
                         </FormItem>
                     )}
                 />
-                {props.type === 'update' && (
-                    <Button type="submit" disabled={form.formState.isSubmitting}>
-                        {form.formState.isSubmitting ? '更新中...' : '保存'}
-                    </Button>
-                )}
             </form>
         </Form>
     );
