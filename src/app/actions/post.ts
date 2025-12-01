@@ -1,6 +1,6 @@
 'use server';
 
-import type { Post } from '@prisma/client';
+import type { Post, Prisma } from '@prisma/client';
 
 import { isNil } from 'lodash';
 
@@ -43,9 +43,18 @@ export const queryPostTotalPages = async (limit = 8): Promise<number> => {
 export const queryPostItem = async (arg: string): Promise<Post | null> => {
     const item = await db.post.findFirst({
         where: {
-            id: arg,
+            OR: [{ id: arg }, { slug: arg }],
         },
     });
+    return item;
+};
+
+/**
+ * 根据slug查询文章信息
+ * @param slug
+ */
+export const queryPostItemBySlug = async (slug: string): Promise<Post | null> => {
+    const item = await db.post.findUnique({ where: { slug } });
     return item;
 };
 
@@ -66,7 +75,7 @@ export const queryPostItemById = async (id: string): Promise<Post | null> => {
  * 新增文章
  * @param data
  */
-export const createPostItem = async (data: Omit<Post, 'id'>): Promise<Post> => {
+export const createPostItem = async (data: Prisma.PostCreateInput): Promise<Post> => {
     const item = await db.post.create({
         data: { ...data, thumb: `/uploads/thumb/post-${getRandomInt(1, 8)}.png` },
     });

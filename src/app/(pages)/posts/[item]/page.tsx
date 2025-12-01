@@ -1,3 +1,4 @@
+import type { Metadata, ResolvingMetadata } from 'next';
 import type { FC } from 'react';
 
 import { isNil } from 'lodash';
@@ -12,6 +13,22 @@ import { queryPostItem } from '@/app/actions/post';
 import { formatChineseTime } from '@/libs/time';
 
 import $styles from './page.module.css';
+
+export const generateMetadata = async (
+    { params }: { params: Promise<{ item: string }> },
+    parent: ResolvingMetadata,
+): Promise<Metadata> => {
+    const { item } = await params;
+    const post = await queryPostItem(item);
+
+    if (isNil(post)) return {};
+
+    return {
+        title: `${post.title} - ${(await parent).title?.absolute}`,
+        keywords: post.keywords,
+        description: post.description,
+    };
+};
 
 const PostItemPage: FC<{ params: Promise<{ item: string }> }> = async ({ params }) => {
     const { item } = await params;

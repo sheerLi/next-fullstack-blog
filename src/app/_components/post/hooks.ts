@@ -6,25 +6,19 @@ import { useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { createPostItem, updatePostItem } from '@/app/actions/post';
+import { getDefaultFormValues } from '@/libs/form';
 
 import type { PostCreateData, PostFormData, PostUpdateData } from './types';
 
 export const usePostActionForm = (params: { type: 'create' } | { type: 'update'; item: Post }) => {
-    const defaultValues = useMemo(() => {
-        if (params.type === 'create') {
-            return {
-                title: '文章标题',
-                body: '文章内容',
-                summary: '',
-            } as PostCreateData;
-        }
-
-        return {
-            title: params.item.title,
-            body: params.item.body,
-            summary: isNil(params.item.summary) ? '' : params.item.summary,
-        } as PostUpdateData;
-    }, [params.type]);
+    const defaultValues = useMemo(
+        () =>
+            getDefaultFormValues<Post, PostFormData>(
+                ['title', 'body', 'summary', 'slug', 'keywords', 'description'],
+                params,
+            ),
+        [params.type],
+    );
 
     return useForm<PostFormData>({ defaultValues });
 };
@@ -39,7 +33,7 @@ export const usePostFormSubmitHandler = (
     const router = useRouter();
     return useCallback(
         async (data: PostFormData) => {
-            let post: IPost | null;
+            let post: Post | null;
             for (const key of Object.keys(data) as Array<keyof PostFormData>) {
                 const value = data[key];
 
@@ -58,7 +52,7 @@ export const usePostFormSubmitHandler = (
                 }
                 // 创建或更新文章后跳转到文章详情页
                 // 注意,这里不要用push,防止在详情页后退后返回到创建或编辑页面的弹出框
-                if (!isNil(post)) router.replace(`/posts/${post.id}`);
+                if (!isNil(post)) router.replace(`/posts/${post.slug || post.id}`);
             } catch (error) {
                 console.log('error', error);
             }

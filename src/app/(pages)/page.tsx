@@ -35,7 +35,7 @@ const HomePage: FC<{ searchParams: Promise<IPaginateQueryProps> }> = async ({ se
                         style={{ '--bg-img': `url(${item.thumb})` } as any}
                         key={item.id}
                     >
-                        <Link className={$styles.thumb} href={`/posts/${item.id}`}>
+                        <Link className={$styles.thumb} href={`/posts/${item.slug || item.id}`}>
                             <Image
                                 src={item.thumb}
                                 alt={item.title}
@@ -47,7 +47,7 @@ const HomePage: FC<{ searchParams: Promise<IPaginateQueryProps> }> = async ({ se
                         </Link>
                         <div className={$styles.content}>
                             <div className={$styles.title}>
-                                <Link href={`/posts/${item.id}`}>
+                                <Link href={`/posts/${item.slug || item.id}`}>
                                     <h2 className="ellips animate-decoration animate-decoration-lg">
                                         {item.title}
                                     </h2>

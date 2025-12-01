@@ -1,3 +1,4 @@
+import type { Metadata, ResolvingMetadata } from 'next';
 import type { FC } from 'react';
 
 import { isNil } from 'lodash';
@@ -8,6 +9,13 @@ import { cn } from '@/app/_components/shadcn/utils';
 import { queryPostItemById } from '@/app/actions/post';
 
 import $styles from '../../create/style.module.css';
+
+export const generateMetadata = async (_: any, parent: ResolvingMetadata): Promise<Metadata> => {
+    return {
+        title: `编辑文章 - ${(await parent).title?.absolute}`,
+        description: '文章编辑页面',
+    };
+};
 
 // 添加动态标记，强制使用 SSR
 export const dynamic = 'force-dynamic';
