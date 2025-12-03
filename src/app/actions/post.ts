@@ -10,6 +10,13 @@ import db from '@/libs/db/client';
 import { paginateTransform } from '@/libs/db/utils';
 import { getRandomInt } from '@/libs/random';
 
+const loadingTime = () =>
+    new Promise((r) => {
+        setTimeout(() => {
+            r(true);
+        }, 3000);
+    });
+
 /**
  * 查询分页文章列表信息
  * @param options
