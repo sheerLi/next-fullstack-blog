@@ -1,5 +1,6 @@
 import type { Post } from '@prisma/client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { isNil, trim } from 'lodash';
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
@@ -9,6 +10,8 @@ import { createPostItem, updatePostItem } from '@/app/actions/post';
 import { getDefaultFormValues } from '@/libs/form';
 
 import type { PostCreateData, PostFormData, PostUpdateData } from './types';
+
+import { generatePostFormValidator } from './form-validator';
 
 export const usePostActionForm = (params: { type: 'create' } | { type: 'update'; item: Post }) => {
     const defaultValues = useMemo(
@@ -20,7 +23,13 @@ export const usePostActionForm = (params: { type: 'create' } | { type: 'update';
         [params.type],
     );
 
-    return useForm<PostFormData>({ defaultValues });
+    return useForm<PostFormData>({
+        mode: 'all',
+        resolver: zodResolver(
+            generatePostFormValidator(params.type === 'update' ? params.item.id : undefined) as any,
+        ),
+        defaultValues,
+    });
 };
 
 /**
