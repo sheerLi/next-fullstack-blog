@@ -5,6 +5,7 @@ import { isNil, trim } from 'lodash';
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { createPostItem, updatePostItem } from '@/app/actions/post';
 import { getDefaultFormValues } from '@/libs/form';
@@ -63,7 +64,10 @@ export const usePostFormSubmitHandler = (
                 // 注意,这里不要用push,防止在详情页后退后返回到创建或编辑页面的弹出框
                 if (!isNil(post)) router.replace(`/posts/${post.slug || post.id}`);
             } catch (error) {
-                console.log('error', error);
+                toast.error('遇到服务器错误,请联系管理员处理', {
+                    id: 'post-save-error',
+                    description: (error as Error).message,
+                });
             }
         },
         [{ ...params }],

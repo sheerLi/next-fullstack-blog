@@ -4,6 +4,7 @@ import type { FC, MouseEventHandler } from 'react';
 import { Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
+import { toast } from 'sonner';
 
 import { deletePostItem } from '@/app/actions/post';
 
@@ -43,7 +44,10 @@ export const PostDelete: FC<{ id: string }> = ({ id }) => {
                 setPedding(false);
                 setOpen(false);
             } catch (error) {
-                console.error(error);
+                toast.warning('删除失败', {
+                    id: 'post-delete-error',
+                    description: (error as Error).message,
+                });
             }
 
             // 删除文章后刷新页面
