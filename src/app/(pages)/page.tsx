@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
+import { fetchApi } from '@/libs/api';
 import { formatChineseTime } from '@/libs/time';
 
 import type { IPaginateQueryProps } from '../_components/paginate/types';
@@ -15,13 +16,16 @@ import { PostActions } from '../_components/post/list';
 import { PostListPaginate } from '../_components/post/paginate';
 import { PageSkeleton } from '../_components/post/skeleton';
 import { cn } from '../_components/shadcn/utils';
-import { queryPostPaginate } from '../actions/post';
 import $styles from './page.module.css';
 
 const HomePage: FC<{ searchParams: Promise<IPaginateQueryProps> }> = async ({ searchParams }) => {
     const { page: currentPage, limit = 8 } = await searchParams;
     const page = isNil(currentPage) || Number(currentPage) < 1 ? 1 : Number(currentPage);
-    const { items, meta } = await queryPostPaginate({ page, limit });
+    const result = await fetchApi(async (c) => {
+        return c.api.posts.$get({ query: { page: page.toString(), limit: limit.toString() } });
+    });
+    if (!result.ok) throw new Error((await result.json()).message);
+    const { items, meta } = await result.json();
 
     if (meta.totalPages && meta.totalPages > 0 && page > meta.totalPages) {
         return redirect('/');
@@ -31,7 +35,7 @@ const HomePage: FC<{ searchParams: Promise<IPaginateQueryProps> }> = async ({ se
         <div className="page-item">
             <Suspense fallback={<PageSkeleton />}>
                 <div className={cn('page-container', $styles.list)}>
-                    {items.map((item) => (
+                    {items.map((item: any) => (
                         <div
                             className={$styles.item}
                             // 传入css变量的封面图用于鼠标移动到此处后会出现不同颜色的光晕效果
@@ -68,8 +72,8 @@ const HomePage: FC<{ searchParams: Promise<IPaginateQueryProps> }> = async ({ se
                                         </span>
                                         <time className="ellips">
                                             {!isNil(item.updatedAt)
-                                                ? formatChineseTime(item.updatedAt)
-                                                : formatChineseTime(item.createdAt)}
+                                                ? formatChineseTime(new Date(item.updatedAt))
+                                                : formatChineseTime(new Date(item.createdAt))}
                                         </time>
                                     </div>
                                     {/* 文章操作按钮 */}

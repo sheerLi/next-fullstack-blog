@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 
-import { deletePostItem } from '@/app/actions/post';
+import { fetchApi } from '@/libs/api';
 
 import {
     AlertDialog,
@@ -37,19 +37,19 @@ export const PostDelete: FC<{ id: string }> = ({ id }) => {
 
     const deleteItem: MouseEventHandler<HTMLButtonElement> = useCallback(
         async (e) => {
-            try {
-                e.preventDefault();
-                setPedding(true);
-                await deletePostItem(id);
-                setPedding(false);
-                setOpen(false);
-            } catch (error) {
+            e.preventDefault();
+            setPedding(true);
+            const result = await fetchApi(async (c) =>
+                c.api.posts[':id'].$delete({ param: { id } }),
+            );
+            if (!result.ok) {
                 toast.warning('删除失败', {
                     id: 'post-delete-error',
-                    description: (error as Error).message,
+                    description: (await result.json()).message,
                 });
             }
-
+            setPedding(false);
+            setOpen(false);
             // 删除文章后刷新页面
             router.refresh();
         },

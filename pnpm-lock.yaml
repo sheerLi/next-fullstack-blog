@@ -20,6 +20,9 @@ importers:
       '@faker-js/faker':
         specifier: ^9.9.0
         version: 9.9.0
+      '@hono/zod-validator':
+        specifier: ^0.7.5
+        version: 0.7.5(hono@4.10.7)(zod@4.0.17)
       '@hookform/resolvers':
         specifier: ^5.2.1
         version: 5.2.1(react-hook-form@7.62.0(react@19.1.0))
@@ -68,6 +71,9 @@ importers:
       deepmerge:
         specifier: ^4.3.1
         version: 4.3.1
+      hono:
+        specifier: ^4.10.7
+        version: 4.10.7
       immer:
         specifier: ^10.1.1
         version: 10.1.1
@@ -606,6 +612,12 @@ packages:
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
+
+  '@hono/zod-validator@0.7.5':
+    resolution: {integrity: sha512-n4l4hutkfYU07PzRUHBOVzUEn38VSfrh+UVE5d0w4lyfWDOEhzxIupqo5iakRiJL44c3vTuFJBvcmUl8b9agIA==}
+    peerDependencies:
+      hono: '>=3.9.0'
+      zod: ^3.25.0 || ^4.0.0
 
   '@hookform/resolvers@5.2.1':
     resolution: {integrity: sha512-u0+6X58gkjMcxur1wRWokA7XsiiBJ6aK17aPZxhkoYiK5J+HcTx0Vhu9ovXe6H+dVpO6cjrn2FkJTryXEMlryQ==}
@@ -3004,6 +3016,10 @@ packages:
 
   hastscript@9.0.1:
     resolution: {integrity: sha512-g7df9rMFX/SPi34tyGCyUBREQoKkapwdY/T04Qn9TDWfHhAYt4/I0gMVirzK5wEzeUqIjEB+LXC/ypb7Aqno5w==}
+
+  hono@4.10.7:
+    resolution: {integrity: sha512-icXIITfw/07Q88nLSkB9aiUrd8rYzSweK681Kjo/TSggaGbOX4RRyxxm71v+3PC8C/j+4rlxGeoTRxQDkaJkUw==}
+    engines: {node: '>=16.9.0'}
 
   hookified@1.9.0:
     resolution: {integrity: sha512-2yEEGqphImtKIe1NXWEhu6yD3hlFR4Mxk4Mtp3XEyScpSt4pQ4ymmXA1zzxZpj99QkFK+nN0nzjeb2+RUi/6CQ==}
@@ -5575,6 +5591,11 @@ snapshots:
       react-dom: 19.1.0(react@19.1.0)
 
   '@floating-ui/utils@0.2.10': {}
+
+  '@hono/zod-validator@0.7.5(hono@4.10.7)(zod@4.0.17)':
+    dependencies:
+      hono: 4.10.7
+      zod: 4.0.17
 
   '@hookform/resolvers@5.2.1(react-hook-form@7.62.0(react@19.1.0))':
     dependencies:
@@ -8378,6 +8399,8 @@ snapshots:
       hast-util-parse-selector: 4.0.0
       property-information: 7.1.0
       space-separated-tokens: 2.0.2
+
+  hono@4.10.7: {}
 
   hookified@1.9.0: {}
 

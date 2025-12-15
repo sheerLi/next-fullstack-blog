@@ -7,10 +7,10 @@ import { useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { createPostItem, updatePostItem } from '@/app/actions/post';
+import { fetchApi } from '@/libs/api';
 import { getDefaultFormValues } from '@/libs/form';
 
-import type { PostCreateData, PostFormData, PostUpdateData } from './types';
+import type { PostFormData } from './types';
 
 import { generatePostFormValidator } from './form-validator';
 
@@ -54,11 +54,24 @@ export const usePostFormSubmitHandler = (
             try {
                 // 更新文章
                 if (params.type === 'update') {
-                    post = await updatePostItem(params.id, data as PostUpdateData);
+                    const res = await fetchApi((c) => {
+                        return c.api.posts[':id'].$patch({
+                            param: { id: params.id },
+                            json: data,
+                        } as any);
+                    });
+                    if (!res.ok) throw new Error((await res.json()).message);
+                    post = (await res.json()) as any;
                 }
                 // 创建文章
                 else {
-                    post = await createPostItem(data as PostCreateData);
+                    const res = await fetchApi((c) => {
+                        return c.api.posts.$post({
+                            json: data,
+                        } as any);
+                    });
+                    if (!res.ok) throw new Error((await res.json()).message);
+                    post = (await res.json()) as any;
                 }
                 // 创建或更新文章后跳转到文章详情页
                 // 注意,这里不要用push,防止在详情页后退后返回到创建或编辑页面的弹出框

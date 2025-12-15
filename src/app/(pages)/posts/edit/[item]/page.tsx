@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 
 import { PostPageForm } from '@/app/_components/post/page-form';
 import { cn } from '@/app/_components/shadcn/utils';
-import { queryPostItemById } from '@/app/actions/post';
+import { fetchApi } from '@/libs/api';
 
 import $styles from '../../create/style.module.css';
 
@@ -23,8 +23,14 @@ export const dynamic = 'force-dynamic';
 const PostEditPage: FC<{ params: Promise<{ item: string }> }> = async ({ params }) => {
     const { item } = await params;
     if (isNil(item)) return notFound();
-    const post = await queryPostItemById(item);
-    if (isNil(post)) return notFound();
+    const result = await fetchApi(async (c) =>
+        c.api.posts.byid[':id'].$get({ param: { id: item } }),
+    );
+    if (!result.ok) {
+        if (result.status !== 404) throw new Error((await result.json()).message);
+        return notFound();
+    }
+    const post = (await result.json()) as any;
     return (
         <div className="page-item">
             <div className={cn($styles.item, 'page-container')}>
