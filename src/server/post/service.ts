@@ -11,6 +11,17 @@ import { paginateTransform } from '@/libs/db/utils';
 import { getRandomInt } from '@/libs/random';
 
 /**
+ * 通过ID验证slug的唯一性
+ * @param id
+ */
+export const isSlugUnique = async (id?: string) => async (val?: string | null) => {
+    if (isNil(val) || !val.length) return true;
+    const post = await queryPostItemBySlug(val);
+    if (isNil(post) || post.id === id) return true;
+    return false;
+};
+
+/**
  * 查询分页文章列表信息
  * @param options
  */

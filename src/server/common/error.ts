@@ -1,3 +1,5 @@
+import type { Context } from 'hono';
+
 import { isNil, isObject } from 'lodash';
 
 /**
@@ -18,4 +20,22 @@ export const createErrorResult = (title: string, error?: any, code?: number) => 
         code,
         message,
     };
+};
+
+/**
+ * 请求数据验证失败的默认响应
+ * @param result
+ * @param c
+ */
+export const defaultValidatorErrorHandler = (result: any, c: Context) => {
+    if (!result.success) {
+        return c.json(
+            {
+                ...createErrorResult('请求数据验证失败', 400),
+                errors: result.error.format(),
+            },
+            400,
+        );
+    }
+    return result;
 };

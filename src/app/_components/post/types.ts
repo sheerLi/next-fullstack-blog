@@ -1,8 +1,7 @@
-import type { Post, Prisma } from '@prisma/client';
+import type { Post } from '@prisma/client';
 import type { BaseSyntheticEvent } from 'react';
-import type { z } from 'zod';
 
-import type { generatePostFormValidator } from './form-validator';
+import type { PostCreateOrUpdateData, PostItem } from '@/server/post/type';
 
 export interface PostCreateFormProps {
     type: 'create';
@@ -10,10 +9,8 @@ export interface PostCreateFormProps {
 
 export interface PostUpdateFormProps {
     type: 'update';
-    item: Post;
+    item: PostItem;
 }
-
-export type PostCreateData = Prisma.PostCreateInput;
 
 export type PostUpdateData = Partial<Omit<Post, 'id'>> & { id: string };
 
@@ -25,7 +22,7 @@ export type PostActionFormProps = (PostCreateFormProps | PostUpdateFormProps) & 
     setPedding: (value: boolean) => void;
 };
 
-export type PostFormData = z.infer<ReturnType<typeof generatePostFormValidator>>;
+export type PostFormData = Omit<PostCreateOrUpdateData, 'id'>;
 
 export interface PostActionFormRef {
     save?: (e: BaseSyntheticEvent) => Promise<void>;
