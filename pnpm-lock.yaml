@@ -116,6 +116,9 @@ importers:
       pinyin:
         specifier: ^4.0.0
         version: 4.0.0(segmentit@2.0.3)
+      prisma-extension-bark:
+        specifier: ^0.2.2
+        version: 0.2.2(@prisma/client@6.14.0(prisma@6.14.0(typescript@5.8.3))(typescript@5.8.3))
       prisma-paginate:
         specifier: ^5.2.2
         version: 5.2.2(@prisma/client@6.14.0(prisma@6.14.0(typescript@5.8.3))(typescript@5.8.3))(prisma@6.14.0(typescript@5.8.3))
@@ -4169,6 +4172,11 @@ packages:
 
   preval.macro@4.0.0:
     resolution: {integrity: sha512-sJJnE71X+MPr64CVD2AurmUj4JEDqbudYbStav3L9Xjcqm4AR0ymMm6sugw1mUmfI/7gw4JWA4JXo/k6w34crw==}
+
+  prisma-extension-bark@0.2.2:
+    resolution: {integrity: sha512-zcIw4APLqwsQNZJA8z3N6jA4GwUBQAejqiD701AhBFFZQmhtgq2vzzDtNieqs5OkunuZbqM7NHdvm+QaxsKOOA==}
+    peerDependencies:
+      '@prisma/client': '>=5.0.0'
 
   prisma-paginate@5.2.2:
     resolution: {integrity: sha512-Lq7wZ8DPtvNF8r8WTmMlBYDk3La2g+3/Pm09tctbkmLdgDijQifG62HRUy72a/ZnXciUjtAOaHIEvmeESLWkoQ==}
@@ -9865,6 +9873,10 @@ snapshots:
   preval.macro@4.0.0:
     dependencies:
       babel-plugin-preval: 4.0.0
+
+  prisma-extension-bark@0.2.2(@prisma/client@6.14.0(prisma@6.14.0(typescript@5.8.3))(typescript@5.8.3)):
+    dependencies:
+      '@prisma/client': 6.14.0(prisma@6.14.0(typescript@5.8.3))(typescript@5.8.3)
 
   prisma-paginate@5.2.2(@prisma/client@6.14.0(prisma@6.14.0(typescript@5.8.3))(typescript@5.8.3))(prisma@6.14.0(typescript@5.8.3)):
     dependencies:
