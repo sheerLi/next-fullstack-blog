@@ -54,3 +54,9 @@ export const getRandListData = <T>(list: T[]) => {
     }
     return result;
 };
+
+export const randomIntFrom = (min: number, max: number) => {
+    const minc = Math.ceil(min);
+    const maxc = Math.floor(max);
+    return Math.floor(Math.random() * (maxc - minc + 1)) + minc;
+};
