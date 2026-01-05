@@ -30,7 +30,7 @@ function buildTree(data: CategoryItem[]): CategoryItem[] {
         const path = currentNode.path;
         map[path] = currentNode;
 
-        if (currentNode.depth === sortedNodes[0].depth) {
+        if (currentNode.depth === data[0].depth) {
             roots.push(currentNode);
         } else {
             // 计算父路径（移除最后 4 位）
@@ -86,6 +86,8 @@ const queryCategoryDescendants = async (parent?: string): Promise<CategoryItem[]
  */
 export const queryCategoryTree = async (parent?: string): Promise<CategoryItem[]> => {
     const categories = await queryCategoryDescendants(parent);
+    console.log('parent: ', parent);
+    console.log('categories: ', categories);
     return buildTree(categories);
 };
 

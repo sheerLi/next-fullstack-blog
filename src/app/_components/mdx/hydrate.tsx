@@ -13,7 +13,7 @@ import { deepMerge } from '@/libs/utils';
 
 import type { MdxHydrateProps } from './types';
 
-import { PostContentSkeleton } from '../post/skeleton';
+import { PostContentSkeleton } from '../blog/skeleton';
 import './styles/index.css';
 import { Toc } from './components/toc';
 import { useCodeWindow } from './hooks/code-window';

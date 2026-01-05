@@ -39,7 +39,10 @@ export const categoryRoutes = app
         validator('param', categoryListRequestParamsSchema, defaultValidatorErrorHandler),
         async (c) => {
             try {
-                const { parent } = c.req.valid('param');
+                let { parent } = c.req.valid('param');
+                if (parent === ':parent') {
+                    parent = undefined;
+                }
                 const result = await queryCategoryList(parent);
 
                 return c.json(result, 200);
@@ -63,7 +66,10 @@ export const categoryRoutes = app
         validator('param', categoryListRequestParamsSchema, defaultValidatorErrorHandler),
         async (c) => {
             try {
-                const { parent } = c.req.valid('param');
+                let { parent } = c.req.valid('param');
+                if (parent === ':parent') {
+                    parent = undefined;
+                }
                 const result = await queryCategoryTree(parent);
                 return c.json(result, 200);
             } catch (error) {
