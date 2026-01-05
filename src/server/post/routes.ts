@@ -1,8 +1,8 @@
-import { Hono } from 'hono';
 import { describeRoute, validator } from 'hono-openapi';
 import { isNil } from 'lodash';
 import z from 'zod';
 
+import { createHonoApp } from '../common/app';
 import { createErrorResult, defaultValidatorErrorHandler } from '../common/error';
 import {
     create201SuccessResponse,
@@ -25,6 +25,7 @@ import {
 import {
     createPostItem,
     deletePostItem,
+    isSlugUnique,
     queryPostItem,
     queryPostItemById,
     queryPostItemBySlug,
@@ -32,12 +33,12 @@ import {
     queryPostTotalPages,
     updatePostItem,
 } from './service';
-
-const app = new Hono();
-
 export const postTags = ['文章操作'];
+export const postPath = '/posts';
+export type PostApiType = typeof postRoutes;
 
-export const postApi = app
+const app = createHonoApp();
+export const postRoutes = app
     .get(
         '/',
         describeRoute({
@@ -53,9 +54,12 @@ export const postApi = app
         validator('query', postPaginateRequestQuerySchema, defaultValidatorErrorHandler),
         async (c) => {
             try {
-                const query = c.req.query();
+                const query = c.req.valid('query');
                 const options = Object.fromEntries(
-                    Object.entries(query).map(([k, v]) => [k, Number(v)]),
+                    Object.entries(query).map(([k, v]) => [
+                        k,
+                        ['page', 'limit'].includes(k) ? Number(v) : v,
+                    ]),
                 );
                 const result = await queryPostPaginate(options);
                 return c.json(result, 200);
@@ -79,9 +83,14 @@ export const postApi = app
         validator('query', postPageNumbersRequestQuerySchema, defaultValidatorErrorHandler),
         async (c) => {
             try {
-                const query = c.req.query();
-                const limit = query.limit ? Number(query.limit) : undefined;
-                const result = await queryPostTotalPages(limit);
+                const query = c.req.valid('query');
+                const options = Object.fromEntries(
+                    Object.entries(query).map(([k, v]) => [
+                        k,
+                        ['page', 'limit'].includes(k) ? Number(v) : v,
+                    ]),
+                );
+                const result = await queryPostTotalPages(options);
                 return c.json({ result }, 200);
             } catch (error) {
                 return c.json(createErrorResult('查询页面总数失败', error), 500);
@@ -104,7 +113,7 @@ export const postApi = app
         validator('param', postDetailRequestParamsSchema, defaultValidatorErrorHandler),
         async (c) => {
             try {
-                const { item } = c.req.param();
+                const { item } = c.req.valid('param');
                 const result = await queryPostItem(item);
                 if (!isNil(result)) return c.json(result, 200);
                 return c.json(createErrorResult('文章不存在'), 404);
@@ -128,7 +137,7 @@ export const postApi = app
         validator('param', postDetailByIdRequestParamsSchema, defaultValidatorErrorHandler),
         async (c) => {
             try {
-                const { id } = c.req.param();
+                const { id } = c.req.valid('param');
                 const result = await queryPostItemById(id);
                 if (!isNil(result)) return c.json(result, 200);
                 return c.json(createErrorResult('文章不存在'), 404);
@@ -152,10 +161,9 @@ export const postApi = app
         validator('param', postDetailBySlugRequestParamsSchema, defaultValidatorErrorHandler),
         async (c) => {
             try {
-                const { slug } = c.req.param();
+                const { slug } = c.req.valid('param');
                 const result = await queryPostItemBySlug(slug);
-                if (!isNil(result)) return c.json(result, 200);
-                return c.json(createErrorResult('文章不存在'), 404);
+                return c.json(result, 200);
             } catch (error) {
                 return c.json(createErrorResult('查询文章失败', error), 500);
             }
@@ -176,8 +184,14 @@ export const postApi = app
         validator('json', getPostItemRequestSchema(), defaultValidatorErrorHandler),
         async (c) => {
             try {
-                const body = await c.req.json();
-                const result = await createPostItem(body);
+                const schema = getPostItemRequestSchema(await isSlugUnique());
+                const validated = await schema.safeParseAsync(await c.req.json());
+
+                if (!validated.success) {
+                    return c.json(createErrorResult('请求数据验证失败', validated.error), 400);
+                }
+
+                const result = await createPostItem(validated.data);
                 return c.json(result, 201);
             } catch (error) {
                 return c.json(createErrorResult('创建文章失败', error), 500);
@@ -200,9 +214,15 @@ export const postApi = app
         validator('json', getPostItemRequestSchema(), defaultValidatorErrorHandler),
         async (c) => {
             try {
-                const { id } = c.req.param();
-                const body = await c.req.json();
-                const result = await updatePostItem(id, body);
+                const params = c.req.valid('param');
+                const schema = getPostItemRequestSchema(await isSlugUnique(params.id));
+                const validated = await schema.safeParseAsync(await c.req.json());
+
+                if (!validated.success) {
+                    return c.json(createErrorResult('请求数据验证失败', validated.error), 400);
+                }
+
+                const result = await updatePostItem(params.id, validated.data);
                 return c.json(result, 200);
             } catch (error) {
                 return c.json(createErrorResult('更新文章失败', error), 500);
@@ -224,7 +244,7 @@ export const postApi = app
         validator('param', postDetailByIdRequestParamsSchema, defaultValidatorErrorHandler),
         async (c) => {
             try {
-                const { id } = c.req.param();
+                const { id } = c.req.valid('param');
                 const result = await deletePostItem(id);
                 return c.json(result, 200);
             } catch (error) {

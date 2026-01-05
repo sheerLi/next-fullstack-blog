@@ -2,15 +2,26 @@ import type { z } from 'zod';
 
 import type {
     getPostItemRequestSchema,
-    postItemSchema,
+    postPageNumbersRequestQuerySchema,
     postPageNumbersSchema,
+    postPaginateRequestQuerySchema,
     postPaginateSchema,
+    postSchema,
 } from './schema';
 
 /**
  * 文章查询响应数据类型
  */
-export type PostItem = z.infer<typeof postItemSchema>;
+export type PostItem = z.infer<typeof postSchema>;
+/**
+ * 文章分页查询请求数据类型
+ */
+export type PostPaginateRequestQuery = z.infer<typeof postPaginateRequestQuerySchema>;
+
+/**
+ * 文章页面总数查询请求数据类型
+ */
+export type PostPaginateNumberRequestQuery = z.infer<typeof postPageNumbersRequestQuerySchema>;
 
 /**
  * 文章分页查询响应数据类型
