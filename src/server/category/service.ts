@@ -86,8 +86,6 @@ const queryCategoryDescendants = async (parent?: string): Promise<CategoryItem[]
  */
 export const queryCategoryTree = async (parent?: string): Promise<CategoryItem[]> => {
     const categories = await queryCategoryDescendants(parent);
-    console.log('parent: ', parent);
-    console.log('categories: ', categories);
     return buildTree(categories);
 };
 

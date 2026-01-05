@@ -89,7 +89,6 @@
         "remark-gfm": "^4.0.1",
         "segmentit": "^2.0.3",
         "sonner": "^2.0.7",
-        "sury": "11.0.0-alpha.4",
         "tailwind-merge": "^3.3.0",
         "tailwindcss-animate": "^1.0.7",
         "unist-util-visit": "^5.0.0",
@@ -97,7 +96,6 @@
         "vfile": "^6.0.3",
         "zod": "^4.0.17",
         "zod-openapi": "^5.4.5",
-        "zod-to-json-schema": "^3.25.1",
         "zustand": "^5.0.5"
     },
     "devDependencies": {
