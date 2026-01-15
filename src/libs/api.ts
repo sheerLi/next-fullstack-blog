@@ -6,7 +6,9 @@ import { appConfig } from '@/config/app';
 
 const honoApi = hc<AppType>(appConfig.baseUrl);
 
-const fetchApi = async <F extends (c: ReturnType<typeof hc<AppType>>) => Promise<any>>(run: F) => {
+const fetchApi = async <F extends (c: ReturnType<typeof hc<AppType>>) => Promise<any>>(
+    run: F,
+): Promise<ReturnType<F>> => {
     const result = await run(honoApi);
     return result;
 };

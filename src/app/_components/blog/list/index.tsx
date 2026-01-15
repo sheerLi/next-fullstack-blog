@@ -3,6 +3,8 @@ import type { FC } from 'react';
 import { notFound, redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
+import type { PostPaginate } from '@/server/post/type';
+
 import { postApi } from '@/api/post';
 
 import type { IPaginateQueryProps } from '../../paginate/types';
@@ -27,7 +29,7 @@ export const BlogIndex: FC<BlogIndexProps> = async (props) => {
     const breadcrumbs = getBreadcrumbsLinks(categoryItems);
     const result = await postApi.paginate({ page, limit, tag, category: category?.id });
     if (!result.ok) throw new Error((await result.json()).message);
-    const { items, meta } = await result.json();
+    const { items, meta } = (await result.json()) as PostPaginate;
     if (meta.totalPages && meta.totalPages > 0 && meta.currentPage > meta.totalPages) {
         return redirect('/');
     }

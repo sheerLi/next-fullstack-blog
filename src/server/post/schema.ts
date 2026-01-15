@@ -23,7 +23,7 @@ export const postSchema = z
         body: z.string().meta({ description: '文章内容' }),
         createdAt: z.string().meta({ description: '文章创建时间' }),
         updatedAt: z.string().meta({ description: '最近更新时间' }),
-        tags: z.string().optional().meta({ description: '关联标签列表' }),
+        tags: tagListSchema.meta({ description: '关联标签列表' }),
         categories: categoryListSchema.meta({ description: '关联分类及其祖先分类列表' }),
         category: categorySchema.nullable().meta({ description: '关联分类' }),
     })
@@ -42,7 +42,7 @@ export const postPaginateSchema = z
             perPage: z.number().meta({ description: '每页文章数量' }),
             totalPages: z.number().optional().meta({ description: '文章总页数' }),
             currentPage: z.number().meta({ description: '当前页码' }),
-            tags: z.string().optional().meta({ description: '关联标签列表' }),
+            tags: tagListSchema.meta({ description: '关联标签列表' }),
             categories: categoryListSchema.meta({ description: '关联分类及其祖先分类列表' }),
             category: categorySchema.nullable().meta({ description: '关联分类' }),
         }),
