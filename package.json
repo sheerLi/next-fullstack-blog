@@ -29,8 +29,8 @@
         "dbmd": "cross-env NODE_ENV=production prisma migrate deploy",
         "dbo": "prisma studio",
         "postinstall": "pnpm run dbm && pnpm run dbs && pnpm run dbg",
-        "sql:start": "brew services start postgresql@14",
-        "sql:stop": "brew services stop postgresql@14"
+        "sql:start": "brew services start postgresql@18",
+        "sql:stop": "brew services stop postgresql@18"
     },
     "dependencies": {
         "@ant-design/cssinjs": "^1.23.0",
