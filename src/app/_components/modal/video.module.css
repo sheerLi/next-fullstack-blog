@@ -63,5 +63,5 @@
                         
     
     text-lg text-white shadow-nymd shadow-white/60 transition
-duration-300 ease-in-out hover:rotate-180 focus-visible:outline-0!;
+   duration-300 ease-in-out hover:rotate-180 focus-visible:outline-0!;
 }
