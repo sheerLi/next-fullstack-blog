@@ -37,7 +37,7 @@ export const PostItemIndex: FC<{ item: string }> = async ({ item }) => {
         <div className="page-item">
             <Suspense fallback={<PostItemSkeleton />}>
                 <div className={cn($styles.breadcrumbs, 'page-container')}>
-                    <BlogBreadCrumb items={breadcrumbs} basePath="" />
+                    <BlogBreadCrumb items={breadcrumbs} basePath="/blog" />
                 </div>
                 <div className={cn('page-container', $styles.item)}>
                     <div className={$styles.thumb}>

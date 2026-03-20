@@ -39,7 +39,7 @@ export const BlogIndex: FC<BlogIndexProps> = async (props) => {
                 <div className={cn('page-container', $styles.blogIndex)}>
                     <div className={$styles.container}>
                         <div className="w-full flex-none">
-                            <BlogBreadCrumb items={breadcrumbs} tag={tag} basePath="" />
+                            <BlogBreadCrumb items={breadcrumbs} tag={tag} basePath="/blog" />
                         </div>
                         <PostList items={items} activeTag={tag} />
                         {meta.totalPages! > 1 && (

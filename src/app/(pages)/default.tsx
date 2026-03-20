@@ -1,3 +1,3 @@
-import { default as DefaultHomePage } from './[[...categories]]/page';
+import { default as DefaultHomePage } from './page';
 
 export default DefaultHomePage;
