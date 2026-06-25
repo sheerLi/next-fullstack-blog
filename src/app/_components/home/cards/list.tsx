@@ -2,8 +2,8 @@ import type { FC } from 'react';
 
 import Link from 'next/link';
 
+import { ShineCard } from '../../cards/shine';
 import { Button } from '../../shadcn/ui/button';
-import { Card } from '../../shadcn/ui/card';
 import { cn } from '../../shadcn/utils';
 import $styles from './list.module.css';
 
@@ -37,13 +37,7 @@ export const HomeListCard: FC<Props> = (props) => {
     const { className, title, data, button } = props;
     const items = data ?? [];
     return (
-        <Card
-            className={cn(
-                'h-full w-full bg-card/40 backdrop-blur-sm',
-                `!rounded-[0.75rem]`,
-                className,
-            )}
-        >
+        <ShineCard className="h-full w-full" borderRadius="0.75rem">
             <div className={cn($styles.container, className)}>
                 {title && <div className={$styles.title}>{title}</div>}
                 <div className={$styles.content}>
@@ -72,6 +66,6 @@ export const HomeListCard: FC<Props> = (props) => {
                     </div>
                 </div>
             </div>
-        </Card>
+        </ShineCard>
     );
 };

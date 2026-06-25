@@ -1,5 +1,8 @@
 import type { FC, JSX } from 'react';
 
+import type { FadeInMotionProps } from '../motion/fadeIn';
+
+import { FadeInMotion } from '../motion/fadeIn';
 import {
     Timeline,
     TimelineContent,
@@ -18,22 +21,37 @@ interface Props {
     data: HomeTimelineType[];
 }
 
+const getMotionSide = (side: 'left' | 'right' | null | undefined): FadeInMotionProps['side'] => {
+    switch (side) {
+        case 'left':
+            return 'left';
+        case 'right':
+            return 'right';
+        default:
+            return 'none';
+    }
+};
+
 export const HomeTimeline: FC<Props> = ({ data }) => (
     <Timeline positions="center">
         {data.map((item, index) => (
             <TimelineItem status="done" key={index.toFixed()}>
                 <TimelineHeading
                     side={index % 2 === 0 ? 'left' : 'right'}
-                    Wrapper={({ children, className }) => (
-                        <div className={className}>{children}</div>
+                    Wrapper={({ children, className, side }) => (
+                        <FadeInMotion className={className} side={getMotionSide(side)}>
+                            {children}
+                        </FadeInMotion>
                     )}
                 >
                     {item.title}
                 </TimelineHeading>
                 <TimelineContent
                     side={index % 2 === 0 ? 'right' : 'left'}
-                    Wrapper={({ children, className }) => (
-                        <div className={className}>{children}</div>
+                    Wrapper={({ children, className, side }) => (
+                        <FadeInMotion className={className} side={getMotionSide(side)}>
+                            {children}
+                        </FadeInMotion>
                     )}
                 >
                     {item.content}
@@ -41,13 +59,17 @@ export const HomeTimeline: FC<Props> = ({ data }) => (
                 <TimelineDot
                     status="done"
                     Wrapper={({ children, className }) => (
-                        <div className={className}>{children}</div>
+                        <FadeInMotion className={className} side="none">
+                            {children}
+                        </FadeInMotion>
                     )}
                 />
                 <TimelineLine
                     done
                     Wrapper={({ children, className }) => (
-                        <div className={className}>{children}</div>
+                        <FadeInMotion className={className} side="none">
+                            {children}
+                        </FadeInMotion>
                     )}
                 />
             </TimelineItem>

@@ -18,6 +18,7 @@ import { TagLink } from '../form/tag';
 import { getBreadcrumbsLinks } from '../utils';
 import { PostActions } from './actions';
 import BlogIcons from './blog-icons.png';
+import { PostListItemMotion } from './item-motion';
 import $styles from './style.module.css';
 export interface PostListProps extends IPaginateQueryProps {
     tag?: string;
@@ -27,7 +28,7 @@ export interface PostListProps extends IPaginateQueryProps {
 export const PostList: FC<{ items: PostItem[]; activeTag?: string }> = ({ items, activeTag }) => (
     <div className={cn($styles.list)}>
         {items.map((item) => (
-            <div className={$styles.item} key={item.id}>
+            <PostListItemMotion key={item.id}>
                 <div className={cn($styles.content, 'page-block hover:page-block-hover')}>
                     <Link
                         href={`/blog/posts/${item.slug || item.id}`}
@@ -106,7 +107,7 @@ export const PostList: FC<{ items: PostItem[]; activeTag?: string }> = ({ items,
                         <PostActions item={item} className="relative z-[2]" />
                     </div>
                 </div>
-            </div>
+            </PostListItemMotion>
         ))}
     </div>
 );

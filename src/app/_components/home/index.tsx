@@ -4,6 +4,8 @@ import { Suspense } from 'react';
 
 import { homeConfig } from '@/config/home';
 
+import { FadeInMotion } from '../motion/fadeIn';
+import { TypedText } from '../text/typed';
 import { HomeBackground } from './background';
 import { HomeListCard } from './cards/list';
 import { HomeVideoCard } from './cards/video';
@@ -27,31 +29,32 @@ export const Home: FC = () => (
                         )}
                         {video && (
                             <HomeBlock>
-                                <div className="flex h-auto w-full">
+                                <FadeInMotion className="flex h-auto w-full" side="top-right">
                                     <HomeVideoCard {...video} />
-                                </div>
+                                </FadeInMotion>
                             </HomeBlock>
                         )}
                     </HomeContainer>
                 )}
                 {typed && (
                     <HomeContainer className="items-center justify-center space-y-2 md:flex-col">
-                        <div className="flex w-full items-center justify-center font-lxgw text-xl">
-                            typed text
-                        </div>
+                        <TypedText
+                            className="flex w-full items-center justify-center font-lxgw text-xl"
+                            data={typed}
+                        />
                     </HomeContainer>
                 )}
                 {list && (
                     <HomeContainer>
                         <HomeBlock className="lg:px-5">
-                            <div className="h-full w-full">
+                            <FadeInMotion className="h-full w-full" side="left">
                                 <HomeListCard {...list.first} />
-                            </div>
+                            </FadeInMotion>
                         </HomeBlock>
                         <HomeBlock className="lg:px-5">
-                            <div className="h-full w-full">
+                            <FadeInMotion className="h-full w-full" side="right">
                                 <HomeListCard {...list.second} />
-                            </div>
+                            </FadeInMotion>
                         </HomeBlock>
                     </HomeContainer>
                 )}
